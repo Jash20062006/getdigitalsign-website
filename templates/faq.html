@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block title %}FAQ{% endblock %}
+{% block content %}
+
+<!-- ═══ PAGE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <h1 class="ph-t">Frequently Asked <span class="hi">Questions</span></h1>
+        <p class="ph-d">Find answers to common questions about Digital Signature Certificates and the application process.</p>
+        <div class="ph-badges">
+            <span class="ph-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>IT Act 2000 Compliant</span>
+            <span class="ph-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>50,000+ Certificates Issued</span>
+            <span class="ph-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fast Approval Process</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SEARCH + CATEGORY NAV ═══ -->
+<section class="faq-tools">
+    <div class="wrap wrap--sm">
+        <!-- Search bar -->
+        <div class="faq-search">
+            <svg class="faq-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="faqSearch" placeholder="Search your question..." class="faq-search-input" autocomplete="off">
+            <span id="faqCount" class="faq-search-count">{{ faqs|length }} questions</span>
+        </div>
+        <!-- Category quick links -->
+        <div class="faq-cats">
+            <a href="#faq-basics" class="faq-cat-link faq-cat-link--active" data-cat="all">All</a>
+            <a href="#faq-basics" class="faq-cat-link" data-cat="basics">DSC Basics</a>
+            <a href="#faq-process" class="faq-cat-link" data-cat="process">Application Process</a>
+            <a href="#faq-usage" class="faq-cat-link" data-cat="usage">Usage &amp; Compatibility</a>
+            <a href="#faq-technical" class="faq-cat-link" data-cat="technical">Technical</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FAQ SECTIONS ═══ -->
+<section class="sec faq-sec">
+    <div class="wrap wrap--sm">
+
+        <!-- No results message (hidden by default) -->
+        <div id="faqNoResults" class="faq-no-results" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink-4)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="8" x2="14" y2="14"/><line x1="14" y1="8" x2="8" y2="14"/></svg>
+            <p>No questions match your search. Try different keywords.</p>
+        </div>
+
+        <!-- Category: Digital Signature Basics (questions 0,1,6) -->
+        <div class="faq-category" data-category="basics" id="faq-basics">
+            <div class="faq-cat-head reveal">
+                <div class="faq-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div>
+                    <h2>Digital Signature Basics</h2>
+                    <p>Understanding what DSCs are and how they work</p>
+                </div>
+            </div>
+            {% for item in faqs %}
+            {% if loop.index0 in [0, 1, 6] %}
+            <div class="fq reveal" data-question="{{ item.q|lower }}">
+                <button class="fq-btn" aria-expanded="false" onclick="toggleFaq(this)">
+                    <span class="fq-text">{{ item.q }}</span>
+                    <span class="fq-toggle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="fq-answer"><p>{{ item.a }}</p></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Category: Application Process (questions 2,3,4) -->
+        <div class="faq-category" data-category="process" id="faq-process">
+            <div class="faq-cat-head reveal">
+                <div class="faq-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <div>
+                    <h2>Application Process</h2>
+                    <p>Documents, timelines, and how to apply</p>
+                </div>
+            </div>
+            {% for item in faqs %}
+            {% if loop.index0 in [2, 3, 4] %}
+            <div class="fq reveal" data-question="{{ item.q|lower }}">
+                <button class="fq-btn" aria-expanded="false" onclick="toggleFaq(this)">
+                    <span class="fq-text">{{ item.q }}</span>
+                    <span class="fq-toggle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="fq-answer"><p>{{ item.a }}</p></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Category: Usage & Compatibility (questions 5) -->
+        <div class="faq-category" data-category="usage" id="faq-usage">
+            <div class="faq-cat-head reveal">
+                <div class="faq-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                <div>
+                    <h2>Usage &amp; Compatibility</h2>
+                    <p>Using your DSC across devices and platforms</p>
+                </div>
+            </div>
+            {% for item in faqs %}
+            {% if loop.index0 == 5 %}
+            <div class="fq reveal" data-question="{{ item.q|lower }}">
+                <button class="fq-btn" aria-expanded="false" onclick="toggleFaq(this)">
+                    <span class="fq-text">{{ item.q }}</span>
+                    <span class="fq-toggle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="fq-answer"><p>{{ item.a }}</p></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Category: Technical (questions 7) -->
+        <div class="faq-category" data-category="technical" id="faq-technical">
+            <div class="faq-cat-head reveal">
+                <div class="faq-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+                <div>
+                    <h2>Technical Issues</h2>
+                    <p>Token problems, replacements, and troubleshooting</p>
+                </div>
+            </div>
+            {% for item in faqs %}
+            {% if loop.index0 == 7 %}
+            <div class="fq reveal" data-question="{{ item.q|lower }}">
+                <button class="fq-btn" aria-expanded="false" onclick="toggleFaq(this)">
+                    <span class="fq-text">{{ item.q }}</span>
+                    <span class="fq-toggle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="fq-answer"><p>{{ item.a }}</p></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- ═══ BOTTOM CTA ═══ -->
+        <div class="faq-cta faq-cta--v2 reveal">
+            <div class="faq-cta-ico">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-brand)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <h3>Still Have Questions?</h3>
+            <p>Our team is happy to help you choose the right certificate and guide you through the entire application process.</p>
+            <div class="faq-cta-btns">
+                <a href="{{ url_for('contact') }}" class="btn btn--pri">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Contact Support
+                </a>
+                <a href="{{ url_for('apply') }}" class="btn btn--out">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    Apply for DSC
+                </a>
+                <a href="https://wa.me/919869084845?text=Hello%2C%20I%20want%20to%20apply%20for%20a%20Digital%20Signature%20Certificate." target="_blank" rel="noopener" class="btn btn--wa">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// FAQ accordion
+function toggleFaq(btn) {
+    var item = btn.closest('.fq');
+    var isOpen = item.classList.contains('fq--open');
+    // Close all in same category
+    item.parentElement.querySelectorAll('.fq--open').forEach(function(e) {
+        e.classList.remove('fq--open');
+        e.querySelector('.fq-btn').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+        item.classList.add('fq--open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+}
+
+// Search filter
+var searchInput = document.getElementById('faqSearch');
+var countEl = document.getElementById('faqCount');
+var noResults = document.getElementById('faqNoResults');
+var allItems = document.querySelectorAll('.fq');
+var allCats = document.querySelectorAll('.faq-category');
+
+if (searchInput) {
+    searchInput.addEventListener('input', function() {
+        var q = this.value.toLowerCase().trim();
+        var visible = 0;
+        allItems.forEach(function(item) {
+            var text = item.getAttribute('data-question') || '';
+            var match = !q || text.indexOf(q) !== -1;
+            item.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        // Hide empty categories
+        allCats.forEach(function(cat) {
+            var visibleInCat = cat.querySelectorAll('.fq:not([style*="display: none"])').length;
+            cat.style.display = visibleInCat > 0 ? '' : 'none';
+        });
+        countEl.textContent = visible + ' question' + (visible !== 1 ? 's' : '');
+        noResults.style.display = visible === 0 ? 'flex' : 'none';
+    });
+}
+
+// Category filter
+document.querySelectorAll('.faq-cat-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var cat = this.getAttribute('data-cat');
+        // Update active
+        document.querySelectorAll('.faq-cat-link').forEach(function(l) { l.classList.remove('faq-cat-link--active'); });
+        this.classList.add('faq-cat-link--active');
+        // Clear search
+        if (searchInput) { searchInput.value = ''; }
+        noResults.style.display = 'none';
+        // Filter
+        if (cat === 'all') {
+            allCats.forEach(function(c) { c.style.display = ''; });
+            allItems.forEach(function(i) { i.style.display = ''; });
+            countEl.textContent = allItems.length + ' questions';
+        } else {
+            var visible = 0;
+            allCats.forEach(function(c) {
+                var match = c.getAttribute('data-category') === cat;
+                c.style.display = match ? '' : 'none';
+                if (match) visible += c.querySelectorAll('.fq').length;
+            });
+            allItems.forEach(function(i) { i.style.display = ''; });
+            countEl.textContent = visible + ' question' + (visible !== 1 ? 's' : '');
+        }
+    });
+});
+</script>
+{% endblock %}

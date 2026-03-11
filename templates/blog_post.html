@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}{{ post.seo_title if post.seo_title else post.title }}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ post.meta_description if post.meta_description else post.excerpt }}">
+<meta name="keywords" content="{{ post.keywords if post.keywords else '' }}">
+<meta property="og:title" content="{{ post.seo_title if post.seo_title else post.title }}">
+<meta property="og:description" content="{{ post.meta_description if post.meta_description else post.excerpt }}">
+<meta property="og:type" content="article">
+<link rel="canonical" href="{{ url_for('blog_post', slug=post.slug, _external=True) }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══ ARTICLE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <!-- Breadcrumb -->
+        <nav class="bp-breadcrumb">
+            <a href="{{ url_for('home') }}">Home</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <a href="{{ url_for('blog') }}">Blog</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <span>{{ post.category }}</span>
+        </nav>
+
+        <div class="bp-header">
+            <span class="bp-cat">{{ post.category }}</span>
+            <h1 class="bp-title">{{ post.title }}</h1>
+            <p class="bp-excerpt">{{ post.excerpt }}</p>
+
+            <!-- Author + meta bar -->
+            <div class="bp-meta-bar">
+                <div class="bp-author">
+                    <div class="bp-author-ava">{{ post.author[0] }}</div>
+                    <div>
+                        <span class="bp-author-name">{{ post.author }}</span>
+                        <span class="bp-author-date">{{ post.date }} &bull; {{ post.read_time }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ ARTICLE CONTENT ═══ -->
+<section class="sec bp-sec">
+    <div class="wrap wrap--sm">
+        <article class="bp-content reveal">
+            {{ post.content | safe }}
+        </article>
+
+        <!-- Apply CTA inline -->
+        <div class="bp-inline-cta reveal">
+            <div class="bp-inline-cta-content">
+                <h3>Ready to Get Your DSC?</h3>
+                <p>Apply now and receive your Digital Signature Certificate in as little as 30 minutes.</p>
+            </div>
+            <a href="{{ url_for('apply') }}" class="btn btn--pri">
+                Apply for DSC
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <!-- Back link -->
+        <div class="bp-back reveal">
+            <a href="{{ url_for('blog') }}" class="bp-back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Blog
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ RELATED POSTS ═══ -->
+{% set related = [] %}
+{% for p in posts if p.slug != post.slug %}
+    {% if related|length < 3 %}
+        {% if related.append(p) %}{% endif %}
+    {% endif %}
+{% endfor %}
+{% if related %}
+<section class="sec" style="background:var(--c-bg);padding-top:3rem">
+    <div class="wrap">
+        <div class="sh reveal">
+            <h2 class="sh-t">More Articles</h2>
+        </div>
+        <div class="blog-grid blog-grid--sm">
+            {% for rp in related %}
+            <article class="blog-card reveal">
+                <div class="blog-card-top">
+                    <span class="blog-cat">{{ rp.category }}</span>
+                    <span class="blog-time"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{{ rp.read_time }}</span>
+                </div>
+                <h2 class="blog-card-title"><a href="{{ url_for('blog_post', slug=rp.slug) }}">{{ rp.title }}</a></h2>
+                <p class="blog-card-excerpt">{{ rp.excerpt[:120] }}...</p>
+                <div class="blog-card-foot">
+                    <div class="blog-meta">
+                        <div class="blog-author-ava">{{ rp.author[0] }}</div>
+                        <div><span class="blog-author">{{ rp.author }}</span><span class="blog-date">{{ rp.date }}</span></div>
+                    </div>
+                    <a href="{{ url_for('blog_post', slug=rp.slug) }}" class="blog-read">Read <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

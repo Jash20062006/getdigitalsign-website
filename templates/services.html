@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block title %}Services{% endblock %}
+{% block content %}
+
+<!-- ═══ PAGE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <h1 class="ph-t">Our <span class="hi">Services</span></h1>
+        <p class="ph-d">Choose the right Digital Signature Certificate for your needs. All issued by licensed Certifying Authorities under the IT Act 2000.</p>
+    </div>
+</section>
+
+<!-- ═══ PRICING CARDS ═══ -->
+<section class="sec">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// Choose Your Plan</span>
+            <h2 class="sh-t">Digital Signature Certificate Plans</h2>
+            <p class="sh-d">Select the certificate that matches your requirements. All plans include free USB token delivery.</p>
+        </div>
+
+        <div class="svc-g">
+            {% for cert_type, validity_prices in prices.items() %}
+            {% set min_price = (validity_prices.values() | list | min) %}
+            {% set max_price = (validity_prices.values() | list | max) %}
+
+            {% set icon = 'shield' %}
+            {% if 'Only Org' in cert_type %}{% set icon = 'building' %}{% endif %}
+            {% if 'Foreign' in cert_type %}{% set icon = 'globe' %}{% endif %}
+            {% if 'DGFT' in cert_type %}{% set icon = 'globe' %}{% endif %}
+
+            <div class="svc {{ 'svc--hot' if 'Combo' in cert_type }} reveal">
+                {% if 'Combo' in cert_type %}<div class="svc-rib">Most Popular</div>{% endif %}
+
+                <div class="svc-top">
+                    <div class="svc-ico">
+                        {% if icon=='shield' %}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        {% elif icon=='building' %}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01"/></svg>
+                        {% elif icon=='globe' %}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                        {% endif %}
+                    </div>
+                    <h3 class="svc-nm">{{ cert_type }}</h3>
+                    <p class="svc-desc">Category: {{ categories[cert_type] }}</p>
+
+                    <div class="svc-pr">
+                        <span class="svc-amt">₹{{ min_price }}</span>
+                        {% if min_price != max_price %}<span class="svc-per"> - ₹{{ max_price }}</span>{% endif %}
+                    </div>
+                </div>
+
+                <div class="svc-mid">
+                    <ul class="svc-uses">
+                        {% for validity, price in validity_prices | dictsort %}
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{{ validity }} Year: ₹{{ price }}</li>
+                        {% endfor %}
+                    </ul>
+                     <p class="svc-time">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Processing: 1-2 Hours
+                    </p>
+                </div>
+
+                <div class="svc-bot">
+                    <a href="{{ url_for('apply') }}?cert_type={{ cert_type|urlencode }}" class="btn {{ 'btn--pri' if 'Combo' in cert_type else 'btn--out' }} btn--blk">Apply Now</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══ DOCUMENTS REQUIRED ═══ -->
+<section class="sec" style="background:var(--c-bg-alt)">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// Documents Required</span>
+            <h2 class="sh-t">What You'll Need to Apply</h2>
+            <p class="sh-d">Keep these documents ready for a smooth and fast application process.</p>
+        </div>
+        <div class="docs-grid">
+            <div class="docs-col reveal">
+                <div class="docs-head">
+                    <div class="docs-head-ico">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <h3>For Individuals</h3>
+                </div>
+                <ul class="docs-list">
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PAN Card (mandatory)</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Aadhaar Card (for video KYC)</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Passport-size Photograph</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Active Email &amp; Phone Number</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Device with Camera (video verification)</li>
+                </ul>
+            </div>
+            <div class="docs-col reveal">
+                <div class="docs-head">
+                    <div class="docs-head-ico">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01"/></svg>
+                    </div>
+                    <h3>For Organizations</h3>
+                </div>
+                <ul class="docs-list">
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company PAN Card</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>GST Registration Certificate</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Authorization Letter (on letterhead)</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Certificate of Incorporation / Registration</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Authorized Signatory's PAN &amp; Aadhaar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ TRUST BADGES ═══ -->
+<section class="svc-trust-sec">
+    <div class="wrap">
+        <div class="svc-trust-row">
+            {% set badges = [
+                {"ico":'<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',"val":"50,000+","lbl":"Certificates Issued"},
+                {"ico":'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',"val":"IT Act 2000","lbl":"Government Compliant"},
+                {"ico":'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',"val":"30 min – 2 hr","lbl":"Fast Processing"},
+                {"ico":'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>',"val":"Expert Team","lbl":"Dedicated Support"}
+            ] %}
+            {% for b in badges %}
+            <div class="svc-trust-badge reveal">
+                <div class="stb-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ b.ico|safe }}</svg></div>
+                <div class="stb-val">{{ b.val }}</div>
+                <div class="stb-lbl">{{ b.lbl }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══ MID-PAGE CTA ═══ -->
+<section class="svc-mid-cta reveal">
+    <div class="wrap">
+        <div class="svc-mid-cta-inner">
+            <div class="svc-mid-cta-glow"></div>
+            <div class="svc-mid-cta-content">
+                <h2>Need a Digital Signature Certificate Quickly?</h2>
+                <p>Our streamlined process gets you a fully compliant DSC in as little as 30 minutes.</p>
+                <a href="{{ url_for('apply') }}" class="btn btn--pri btn--lg">
+                    Apply for DSC Now
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ ADDITIONAL SERVICES ═══ -->
+<section class="sec" style="background:var(--c-bg)">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// More Services</span>
+            <h2 class="sh-t">Additional <span style="color:var(--c-brand)">Services</span></h2>
+            <p class="sh-d">Beyond certificates — we support your complete DSC lifecycle.</p>
+        </div>
+        <div class="extra-g">
+            {% set extras = [
+                {"ico":'<polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>',"t":"DSC Renewal","d":"Seamless renewal before expiry with zero paperwork. We remind you 30 days in advance."},
+                {"ico":'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>',"t":"USB Token Replacement","d":"Lost or damaged token? Get expedited replacement with your existing certificate reissued."},
+                {"ico":'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>',"t":"Bulk DSC for Organizations","d":"Volume discounts and dedicated account management for companies needing 10+ certificates."},
+                {"ico":'<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',"t":"Installation Support","d":"Free remote assistance to install drivers, configure your DSC, and test signing on your system."}
+            ] %}
+            {% for e in extras %}
+            <div class="extra extra--v2 reveal">
+                <div class="extra-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ e.ico|safe }}</svg></div>
+                <h4>{{ e.t }}</h4>
+                <p>{{ e.d }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SERVICES FAQ ═══ -->
+<section class="sec" style="background:var(--c-bg-alt)">
+    <div class="wrap wrap--sm">
+        <div class="sh reveal">
+            <span class="sh-eye">// Common Questions</span>
+            <h2 class="sh-t">Services FAQ</h2>
+        </div>
+        <div class="svc-faq">
+            {% set sfaqs = [
+                {"q":"What is a Class 3 Digital Signature Certificate?","a":"A Class 3 DSC provides the highest level of assurance and is required for e-tendering, e-procurement, and patent/trademark filing. It involves video-based identity verification and is issued on a secure USB token."},
+                {"q":"How long does it take to issue a DSC?","a":"Individual DSCs (Class 2 and Class 3) are typically issued within 30 minutes to 1 hour. Organization DSCs may take 2–4 hours depending on document verification."},
+                {"q":"Is video verification required for all certificates?","a":"Yes, as per CCA guidelines, video-based KYC is mandatory for all new DSC issuances. The process takes only 2–3 minutes and can be done from any device with a camera."},
+                {"q":"Can I renew my DSC online?","a":"Absolutely. We offer seamless online renewal. You'll receive reminders 30 days before expiry, and renewal can be completed in minutes with minimal documentation."},
+                {"q":"What's the difference between Class 2 and Class 3 DSC?","a":"Class 2 DSC is used for income tax filing, GST registration, and ROC filings. Class 3 DSC provides higher assurance and is required for e-tendering, patent filing, and government procurement portals."},
+                {"q":"Do you offer bulk pricing for organizations?","a":"Yes, we offer volume discounts for orders of 10 or more certificates. Contact our team for custom pricing and a dedicated account manager."}
+            ] %}
+            {% for f in sfaqs %}
+            <div class="faq-i">
+                <button class="faq-q" aria-expanded="false" onclick="toggleSvcFaq(this)">
+                    <span>{{ f.q }}</span>
+                    <svg class="faq-ch" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-a"><p>{{ f.a }}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="cta cta--v2 cta--final">
+    <div class="cta-orb cta-orb--l"></div>
+    <div class="cta-orb cta-orb--r"></div>
+    <div class="wrap cta-in">
+        <h2>Ready to Get Your DSC?</h2>
+        <p>Choose your plan above and apply in under 2 minutes. Our team will guide you through the entire process.</p>
+        <div class="cta-btns">
+            <a href="{{ url_for('apply') }}" class="btn btn--wht btn--lg">
+                Apply Now
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn--ghost btn--lg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                Talk to Expert
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleSvcFaq(b){var i=b.parentElement,o=i.classList.contains('faq-i--open');document.querySelectorAll('.svc-faq .faq-i--open').forEach(function(e){e.classList.remove('faq-i--open');e.querySelector('.faq-q').setAttribute('aria-expanded','false')});if(!o){i.classList.add('faq-i--open');b.setAttribute('aria-expanded','true')}}
+</script>
+{% endblock %}
