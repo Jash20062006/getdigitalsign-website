@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════ -->
+<section class="hero hero--v2">
+    <div class="hero-orb hero-orb--a"></div>
+    <div class="hero-orb hero-orb--b"></div>
+    <div class="hero-orb hero-orb--c"></div>
+    <div class="hero-mesh"></div>
+
+    <div class="wrap hero-grid">
+        <div>
+            <div class="hero-badge"><span class="hero-badge-dot"></span>Government Approved &bull; IT Act 2000 Compliant</div>
+
+            <h1 class="hero-title">
+                Get Your Digital Signature<br>
+                Certificate <em>Online</em>
+            </h1>
+
+            <p class="hero-sub">
+                Fast approval &bull; Government compliant &bull; Secure digital certificates for individuals and businesses across India.
+            </p>
+
+            <!-- Checklist-style trust points -->
+            <ul class="hero-checks">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Issued in 30 minutes or less</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Valid under IT Act 2000</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free USB token delivery</li>
+            </ul>
+
+            <div class="hero-btns">
+                <a href="{{ url_for('apply') }}" class="btn btn--pri btn--lg">
+                    Apply for DSC
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="{{ url_for('services') }}" class="btn btn--ghost btn--lg">View Services</a>
+            </div>
+
+            <!-- Trust badges row -->
+            <div class="hero-trust">
+                <div class="ht-item">
+                    <div class="ht-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div><span class="ht-val">100,000+</span><span class="ht-lbl">Digital Signatures Issued</span></div>
+                </div>
+                <div class="ht-item">
+                    <div class="ht-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div><span class="ht-val">30 min</span><span class="ht-lbl">Processing Time</span></div>
+                </div>
+                <div class="ht-item">
+                    <div class="ht-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <div><span class="ht-val">IT Act</span><span class="ht-lbl">2000 Compliant</span></div>
+                </div>
+                <div class="ht-item">
+                    <div class="ht-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                    <div><span class="ht-val">4.9 ★</span><span class="ht-lbl">Customer Rating</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DSC Card — richer details -->
+        <div class="hero-vis">
+            <div class="card-wrap">
+                <div class="card-ring card-ring--1"></div>
+                <div class="card-ring card-ring--2"></div>
+                <div class="dsc">
+                    <div class="dsc-shimmer"></div>
+                    <div class="dsc-scanner"></div>
+                    <div class="dsc-head">
+                        <div class="chip"></div>
+                        <div class="dsc-nfc">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 018 4"/><path d="M5 12a7 7 0 017-7 7 7 0 015.7 3"/><path d="M8 12a4 4 0 014-4c1.2 0 2.3.5 3 1.4"/><circle cx="12" cy="12" r="1" fill="rgba(255,255,255,.3)"/></svg>
+                        </div>
+                    </div>
+                    <div class="dsc-body">
+                        <p class="dsc-lbl">Digital Signature Certificate</p>
+                        <p class="dsc-name">Class 3 — Individual</p>
+                        <div class="dsc-row">
+                            <span>Valid: 2 Years</span>
+                            <span class="dsc-stat">Active</span>
+                        </div>
+                        <div class="dsc-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Verified &amp; Compliant</div>
+                    </div>
+                    <div class="dsc-foot">
+                        <div class="dsc-barcode">
+                            {% for w in [3,2,1,3,1,2,3,1,2,1,3,2,1,3,2,1,2,3,1,2] %}
+                            <span style="width:{{ w }}px"></span>
+                            {% endfor %}
+                        </div>
+                        <div class="sig-line"></div>
+                        <p class="sig-lbl">Authorized Digital Signature</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LOGOS BAR — With category labels
+     ═══════════════════════════════════════════════════ -->
+<section class="logos-bar reveal">
+    <div class="wrap">
+        <p class="logos-lbl">Trusted by leading firms and government agencies across India</p>
+        <div class="logos-row">
+            {% set logos = [
+                {"n":"TechCorp","cat":"IT Services"},
+                {"n":"FinServe India","cat":"Banking"},
+                {"n":"LegalEdge","cat":"Law Firms"},
+                {"n":"TradeConnect","cat":"Export-Import"},
+                {"n":"GovPortal","cat":"Government"},
+                {"n":"AuditPro","cat":"CA Firms"}
+            ] %}
+            {% for l in logos %}
+            <div class="logos-item">
+                <span class="logos-name">{{ l.n }}</span>
+                <span class="logos-cat">{{ l.cat }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FEATURES — With tinted icon backgrounds
+     ═══════════════════════════════════════════════════ -->
+<section class="sec feat-sec">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// Why Choose Us</span>
+            <h2 class="sh-t">Built for Speed, Trust &amp; Compliance</h2>
+            <p class="sh-d">We make the DSC process simple, fast, and completely hassle-free.</p>
+        </div>
+        <div class="feat-g reveal-stagger">
+            {% set feats = [
+                {"svg":'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',"t":"Fast Processing","d":"Get your DSC issued in as little as 30 minutes with our streamlined online verification process. No delays, no paperwork jams.","color":"var(--c-brand)","bg":"var(--c-b15)"},
+                {"svg":'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',"t":"Government Compliant","d":"All certificates issued under licensed Certifying Authorities, fully valid under the Information Technology Act, 2000.","color":"var(--c-mint)","bg":"var(--c-mint-10)"},
+                {"svg":'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>',"t":"Expert Support","d":"Dedicated team available via phone, email and live chat to guide you through every single step of the process.","color":"var(--c-brand-l)","bg":"var(--c-b10)"},
+                {"svg":'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>',"t":"USB Token Delivery","d":"Secure USB token with your DSC pre-loaded, delivered to your doorstep via express courier. Free shipping included.","color":"var(--c-gold)","bg":"rgba(212,168,67,.1)"},
+                {"svg":'<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>',"t":"Affordable Pricing","d":"Starting at just ₹1400 with absolutely zero hidden charges. Transparent, competitive pricing for every certificate class.","color":"var(--c-mint-d)","bg":"var(--c-mint-10)"},
+                {"svg":'<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',"t":"Renewal Reminders","d":"Never let your DSC expire — we send email and SMS reminders 30 days before expiry so you're always covered.","color":"var(--c-brand)","bg":"var(--c-b15)"}
+            ] %}
+            {% for f in feats %}
+            <div class="feat reveal" style="--accent:{{ f.color }};--accent-bg:{{ f.bg }}">
+                <div class="feat-accent"></div>
+                <div class="feat-ico" style="background:var(--accent-bg);color:var(--accent)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ f.svg|safe }}</svg>
+                </div>
+                <h3>{{ f.t }}</h3>
+                <p>{{ f.d }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     MID-PAGE CTA
+     ═══════════════════════════════════════════════════ -->
+<section class="mid-cta reveal">
+    <div class="wrap">
+        <div class="mid-cta-inner">
+            <div class="mid-cta-glow"></div>
+            <div class="mid-cta-content">
+                <h2>Start Your Digital Signature Application Today</h2>
+                <p>Join thousands of professionals who got their DSC in under 30 minutes.</p>
+                <a href="{{ url_for('apply') }}" class="btn btn--pri btn--lg">
+                    Apply for DSC
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PROCESS — With step labels + dashed line
+     ═══════════════════════════════════════════════════ -->
+<section class="sec proc-sec">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// How It Works</span>
+            <h2 class="sh-t">Get Your DSC in 3 Simple Steps</h2>
+            <p class="sh-d">Our streamlined process makes getting a Digital Signature Certificate effortless.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            {% set steps = [
+                {"n":"1","label":"STEP 1","ico":'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',"t":"Upload Documents","d":"Fill in your details, upload PAN & Aadhaar, and select the certificate type that fits your needs."},
+                {"n":"2","label":"STEP 2","ico":'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',"t":"Video Verification","d":"Complete a quick video KYC from any device — our support team guides you through it live."},
+                {"n":"3","label":"STEP 3","ico":'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',"t":"Receive Your DSC","d":"Your DSC is issued instantly on a secure USB token and express-couriered to your doorstep."}
+            ] %}
+            {% for s in steps %}
+            <div class="tl-step reveal">
+                <span class="tl-label">{{ s.label }}</span>
+                <div class="tl-marker"><span class="tl-num">{{ s.n }}</span></div>
+                <div class="tl-card">
+                    <div class="tl-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ s.ico|safe }}</svg></div>
+                    <h3>{{ s.t }}</h3>
+                    <p>{{ s.d }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="proc-cta reveal" style="margin-top:3rem">
+            <a href="{{ url_for('apply') }}" class="btn btn--pri btn--lg">Start Your Application <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     STATS ROW
+     ═══════════════════════════════════════════════════ -->
+<section class="stats-sec">
+    <div class="wrap">
+        <div class="stats-row">
+            {% set stats = [
+                {"val":"100,000+","lbl":"Digital Signatures Issued","ico":'<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'},
+                {"val":"500+","lbl":"Chartered Accountants Served","ico":'<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01"/>'},
+                {"val":"99.8%","lbl":"Uptime Reliability","ico":'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
+                {"val":"24/7","lbl":"Customer Support","ico":'<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>'}
+            ] %}
+            {% for s in stats %}
+            <div class="stat-block reveal">
+                <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ s.ico|safe }}</svg></div>
+                <div class="stat-val">{{ s.val }}</div>
+                <div class="stat-label">{{ s.lbl }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TESTIMONIALS — With verified badges + company tags
+     ═══════════════════════════════════════════════════ -->
+<section class="sec trust-sec">
+    <div class="wrap">
+        <div class="sh reveal">
+            <span class="sh-eye">// Trusted Nationwide</span>
+            <h2 class="sh-t">Trusted by Professionals Across India</h2>
+            <p class="sh-d">Join thousands of satisfied businesses who rely on Get Digital Sign.</p>
+        </div>
+        <div class="trust-g reveal-stagger">
+            {% set revs = [
+                {"q":"Got my Class 3 DSC in under 45 minutes. The process was incredibly smooth and the support team was very responsive. Couldn't ask for more!","nm":"Priya Sharma","rl":"Chartered Accountant","co":"Sharma & Associates","in":"PS","stars":5},
+                {"q":"We needed 50+ DSCs for our import-export business. Get Digital Sign handled everything with a dedicated account manager. Excellent bulk service.","nm":"Rahul Verma","rl":"Import Export Business Owner","co":"Nexgen Exports Pvt. Ltd.","in":"RV","stars":5},
+                {"q":"As a startup founder, I needed things done fast. Best pricing online, zero bureaucracy, and the renewal was completely hassle-free. Highly recommended.","nm":"Anita Deshmukh","rl":"Startup Founder","co":"BrightTech Solutions","in":"AD","stars":5}
+            ] %}
+            {% for r in revs %}
+            <div class="testi testi--v2 reveal">
+                <div class="testi-stars">
+                    {% for _ in range(r.stars) %}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--c-gold)" stroke="var(--c-gold)" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {% endfor %}
+                </div>
+                <div class="testi-q">{{ r.q }}</div>
+                <div class="testi-bottom">
+                    <div class="testi-who">
+                        <div class="testi-ava testi-ava--ring">{{ r.in }}</div>
+                        <div>
+                            <div class="testi-name">
+                                {{ r.nm }}
+                                <svg class="testi-verified" width="14" height="14" viewBox="0 0 24 24" fill="var(--c-brand)" stroke="#fff" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </div>
+                            <div class="testi-role">{{ r.rl }}</div>
+                        </div>
+                    </div>
+                    <div class="testi-co">{{ r.co }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CTA — Final conversion section
+     ═══════════════════════════════════════════════════ -->
+<section class="cta cta--v2 cta--final">
+    <div class="cta-orb cta-orb--l"></div>
+    <div class="cta-orb cta-orb--r"></div>
+    <div class="wrap cta-in">
+        <span class="cta-eyebrow">Ready to get started?</span>
+        <h2>Get Your Digital Signature<br>Certificate in Minutes</h2>
+        <p>Join 100,000+ businesses. Fast approval, expert support, government-compliant certificates delivered to your door.</p>
+        <div class="cta-btns">
+            <a href="{{ url_for('apply') }}" class="btn btn--wht btn--lg">
+                Apply Now
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn--ghost btn--lg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                Talk to Expert
+            </a>
+        </div>
+        <div class="cta-shields">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>Government Approved</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit Encryption</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>30-Day Money Back</span>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
