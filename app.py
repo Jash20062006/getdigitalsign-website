@@ -9,6 +9,7 @@ from email.mime.multipart import MIMEMultipart
 import os
 import csv
 from datetime import datetime
+from google_sheets import save_to_google_sheets
 
 app = Flask(__name__)
 app.secret_key = "get-digital-sign-secret-key-change-in-production"
@@ -65,12 +66,12 @@ def send_email(subject, body, reply_to=None):
     msg.attach(MIMEText(body, "plain"))
 
     try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=10) as server:
             server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
             server.send_message(msg)
         return True
     except Exception as e:
-        print(f"[ERROR] Failed to send email: {e}")
+        print(f"Email failed: {e}")
         return False
 
 
@@ -99,6 +100,12 @@ def send_contact_email(name, email, phone, subject, message):
         ["Timestamp", "Name", "Email", "Phone", "Subject", "Message"],
         [timestamp, name, email, phone, subject, message],
     )
+
+    # Save to Google Sheets
+    try:
+        save_to_google_sheets(name, email, phone, subject, message, "contact form")
+    except Exception as e:
+        print(f"[ERROR] Failed to save to Google Sheets from contact form: {e}")
 
     # Send email
     body = f"""New DSC Inquiry — Contact Form
@@ -139,6 +146,13 @@ def send_apply_email(name, email, phone, pan, cert_type, validity, org_name, pur
          "Validity", "Organization", "Purpose"],
         [timestamp, name, email, phone, pan, cert_label, validity, org_name, purpose],
     )
+
+    # Save to Google Sheets
+    try:
+        subject = f"Application for {cert_label}"
+        save_to_google_sheets(name, email, phone, subject, purpose, "apply form")
+    except Exception as e:
+        print(f"[ERROR] Failed to save to Google Sheets from apply form: {e}")
 
     # Send email
     body = f"""New DSC Application
