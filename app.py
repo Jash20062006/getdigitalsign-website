@@ -2,23 +2,20 @@
 Get Digital Sign — Digital Signature Certificate Provider
 Flask Application
 """
-from flask import Flask, render_template, request, flash, redirect, url_for
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import logging
 import os
-import csv
 from datetime import datetime
+
+from flask import (Flask, flash, redirect, render_template, request,
+                   url_for)
 from google_sheets import save_to_google_sheets
+import csv
 
 app = Flask(__name__)
-app.secret_key = "get-digital-sign-secret-key-change-in-production"
+app.secret_key = os.environ.get("SECRET_KEY", "get-digital-sign-secret-key-change-in-production")
 
-# ─── DSC Pricing and Category Configuration ───
-# This structure separates pricing from descriptive categories to prevent type errors
-# when sorting dictionary items in Jinja templates.
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
-# Categories associated with each certificate type
 DSC_PRICING_CATEGORIES = {
     "Class 3 Signing": "INCOME TAX, GST, MCA",
     "Class 3 Only Org Signing": "ICEGATE",
@@ -27,7 +24,6 @@ DSC_PRICING_CATEGORIES = {
     "Class 3 Foreign Only Signing": "INCOME TAX, GST",
 }
 
-# Prices for different validity periods (in years)
 DSC_PRICES = {
     "Class 3 Signing": {1: 1400, 2: 1800, 3: 2500},
     "Class 3 Only Org Signing": {2: 2900, 3: 3800},
@@ -37,42 +33,14 @@ DSC_PRICES = {
 }
 
 
-# ── Email Configuration ──
-# IMPORTANT: For production, store credentials securely (e.g., environment variables)
-# rather than hardcoding them in the source code.
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 465
-GMAIL_USER = "dsc.getdigital@gmail.com"
-GMAIL_APP_PASSWORD = "ywijfzcetxpveguh"
-RECEIVER_EMAIL = "dsc.getdigital@gmail.com"
+
+
+
+
 
 # CSV file paths
 CSV_CONTACT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leads_contact.csv")
 CSV_APPLY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leads_apply.csv")
-
-
-def send_email(subject, body, reply_to=None):
-    """Send an email via Gmail SMTP. Returns True on success."""
-    if not GMAIL_APP_PASSWORD:
-        print("[WARNING] GMAIL_APP_PASSWORD not set. Email not sent.")
-        return False
-
-    msg = MIMEMultipart()
-    msg["From"] = GMAIL_USER
-    msg["To"] = RECEIVER_EMAIL
-    msg["Subject"] = subject
-    if reply_to:
-        msg["Reply-To"] = reply_to
-    msg.attach(MIMEText(body, "plain"))
-
-    try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=10) as server:
-            server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-            server.send_message(msg)
-        return True
-    except Exception as e:
-        print(f"Email failed: {e}")
-        return False
 
 
 def _save_csv(filepath, headers, row_data):
@@ -86,97 +54,42 @@ def _save_csv(filepath, headers, row_data):
             writer.writerow(row_data)
         return True
     except Exception as e:
-        print(f"[ERROR] Failed to save CSV: {e}")
+        logging.error(f"Failed to save CSV: {e}")
         return False
 
 
-def send_contact_email(name, email, phone, subject, message):
-    """Send contact form data via email and save to CSV."""
+def save_contact_submission(name, email, phone, subject, message):
+    """Save contact form data to Google Sheets and CSV."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Save to CSV
+    if not save_to_google_sheets(name, email, phone, subject, message, "contact form"):
+        logging.warning("Failed to save contact form data to Google Sheets.")
+
     _save_csv(
         CSV_CONTACT,
         ["Timestamp", "Name", "Email", "Phone", "Subject", "Message"],
         [timestamp, name, email, phone, subject, message],
     )
 
-    # Save to Google Sheets
-    try:
-        save_to_google_sheets(name, email, phone, subject, message, "contact form")
-    except Exception as e:
-        print(f"[ERROR] Failed to save to Google Sheets from contact form: {e}")
 
-    # Send email
-    body = f"""New DSC Inquiry — Contact Form
-
-Name:    {name}
-Email:   {email}
-Phone:   {phone or 'Not provided'}
-Subject: {subject or 'Not provided'}
-
-Message:
-{message}
-
----
-Submitted: {timestamp}
-Source: Get Digital Sign Website — Contact Form
-"""
-    return send_email(
-        f"New DSC Inquiry: {subject or 'Contact Form'}",
-        body,
-        reply_to=email,
-    )
-
-
-def send_apply_email(name, email, phone, pan, cert_type, validity, org_name, purpose):
-    """Send apply form data via email and save to CSV."""
+def save_apply_submission(name, email, phone, pan, cert_type, validity, org_name, purpose):
+    """Save apply form data to Google Sheets and CSV."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Dynamically generate certificate label with price
     price_info = DSC_PRICES.get(cert_type, {})
     price = price_info.get(int(validity), "N/A")
     cert_label = f"{cert_type} ({validity} Year) - ₹{price}"
 
-
-    # Save to CSV
+    subject = f"Application for {cert_label}"
+    if not save_to_google_sheets(name, email, phone, subject, purpose, "apply form"):
+        logging.warning("Failed to save apply form data to Google Sheets.")
+    
     _save_csv(
         CSV_APPLY,
         ["Timestamp", "Name", "Email", "Phone", "PAN", "Certificate Type",
          "Validity", "Organization", "Purpose"],
         [timestamp, name, email, phone, pan, cert_label, validity, org_name, purpose],
     )
-
-    # Save to Google Sheets
-    try:
-        subject = f"Application for {cert_label}"
-        save_to_google_sheets(name, email, phone, subject, purpose, "apply form")
-    except Exception as e:
-        print(f"[ERROR] Failed to save to Google Sheets from apply form: {e}")
-
-    # Send email
-    body = f"""New DSC Application
-
-Full Name:         {name}
-Email:             {email}
-Phone:             {phone}
-PAN:               {pan or 'Not provided'}
-Certificate Type:  {cert_label}
-Validity:          {validity}
-Organization:      {org_name or 'N/A (Individual)'}
-Purpose:           {purpose or 'Not specified'}
-
----
-Submitted: {timestamp}
-Source: Get Digital Sign Website — Apply Form
-"""
-    return send_email(
-        f"New DSC Application: {name}",
-        body,
-        reply_to=email,
-    )
-
-
 
 
 @app.route("/")
@@ -214,12 +127,10 @@ def apply():
         if errors:
             for error in errors:
                 flash(error, "error")
-            print(DSC_PRICES)
             return render_template("apply.html", prices=DSC_PRICES, form_data=request.form)
 
-        # Send email + save to CSV
-        send_apply_email(name, email, phone, pan, cert_type, validity, org_name, purpose)
-
+        save_apply_submission(name, email, phone, pan, cert_type, validity, org_name, purpose)
+        
         flash(
             "Thank you! Your DSC application has been submitted successfully. "
             "Our team will contact you shortly.",
@@ -227,7 +138,6 @@ def apply():
         )
         return redirect(url_for("apply"))
 
-    print(DSC_PRICES)
     return render_template("apply.html", prices=DSC_PRICES, form_data={})
 
 
@@ -276,9 +186,8 @@ def contact():
                 flash(error, "error")
             return render_template("contact.html", form_data=request.form)
 
-        # Send email
-        send_contact_email(name, email, phone, subject, message)
-
+        save_contact_submission(name, email, phone, subject, message)
+        
         flash(
             "Thank you! Our team will contact you shortly.",
             "success",
@@ -737,7 +646,7 @@ BLOG_POSTS = [
 <h3>LED not lighting up?</h3>
 <p>Try a different USB port (direct, not hub). If still dark, token may be defective — request replacement.</p>
 
-<h3>Do e-tendering portals need extra software?</h3>
+<h3>Do e-tendering portals need extra software??</h3>
 <p>Most require a Java-based signer or emBridge utility, downloadable from the portal's help section.</p>
 """,
     },
