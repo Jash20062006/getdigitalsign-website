@@ -2,6 +2,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import os
+import json
+import logging
 
 # ─── Google Sheets Configuration ───
 SCOPE = [
@@ -11,22 +13,41 @@ SCOPE = [
 CREDS_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "google_credentials.json"
 )
-SHEET_NAME = "DSC Leads"
+SHEET_NAME = "DSC LEADS"
 
 
 def _get_gspread_client():
-    """Authorize and return a gspread client."""
-    if not os.path.exists(CREDS_FILE):
-        print(f"[ERROR] Google credentials not found at: {CREDS_FILE}")
-        return None
+    """Authorize and return a gspread client, with detailed logging."""
+    creds_json_str = os.environ.get("GOOGLE_JSON_CREDENTIALS")
+    
+    if creds_json_str:
+        logging.info("Found GOOGLE_JSON_CREDENTIALS environment variable.")
+        try:
+            creds_json = json.loads(creds_json_str)
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, SCOPE)
+            client = gspread.authorize(creds)
+            logging.info("Successfully authorized Google Sheets client from env var.")
+            return client
+        except json.JSONDecodeError as e:
+            logging.error(f"Failed to parse GOOGLE_JSON_CREDENTIALS: {e}")
+            return None
+        except Exception as e:
+            logging.error(f"Failed to authorize Google Sheets client from env var: {e}")
+            return None
 
-    try:
-        creds = ServiceAccountCredentials.from_json_keyfile_name(CREDS_FILE, SCOPE)
-        client = gspread.authorize(creds)
-        return client
-    except Exception as e:
-        print(f"[ERROR] Failed to authorize Google Sheets client: {e}")
-        return None
+    if os.path.exists(CREDS_FILE):
+        logging.info(f"Found credentials file at: {CREDS_FILE}")
+        try:
+            creds = ServiceAccountCredentials.from_json_keyfile_name(CREDS_FILE, SCOPE)
+            client = gspread.authorize(creds)
+            logging.info("Successfully authorized Google Sheets client from file.")
+            return client
+        except Exception as e:
+            logging.error(f"Failed to authorize Google Sheets client from file: {e}")
+            return None
+    
+    logging.error("Google credentials not found. Set GOOGLE_JSON_CREDENTIALS env var or create google_credentials.json")
+    return None
 
 
 def save_to_google_sheets(name, email, phone, subject, message, source):
@@ -47,25 +68,25 @@ def save_to_google_sheets(name, email, phone, subject, message, source):
     try:
         client = _get_gspread_client()
         if not client:
+            logging.error("Aborting save to Google Sheets due to client authorization failure.")
             return False
 
         sheet = client.open(SHEET_NAME).sheet1
+        logging.info(f"Successfully opened Google Sheet: '{SHEET_NAME}'")
 
-        # Prepare the row data
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         row = [timestamp, name, email, phone, subject, message, source]
 
-        # Append the row to the sheet
         sheet.append_row(row)
-        print(f"Successfully saved lead from {email} to Google Sheets.")
+        logging.info(f"Successfully saved lead from {email} to Google Sheets.")
         return True
 
     except gspread.exceptions.SpreadsheetNotFound:
-        print(f"[ERROR] Google Sheet '{SHEET_NAME}' not found. Please create it.")
+        logging.error(f"Google Sheet '{SHEET_NAME}' not found. Please check the name and ensure the service account has access.")
         return False
     except gspread.exceptions.APIError as e:
-        print(f"[ERROR] Google Sheets API error: {e}")
+        logging.error(f"Google Sheets API error: {e}. This may be an issue with API permissions or quotas.")
         return False
     except Exception as e:
-        print(f"[ERROR] An unexpected error occurred with Google Sheets: {e}")
+        logging.error(f"An unexpected error occurred with Google Sheets: {e}")
         return False
