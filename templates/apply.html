@@ -5,48 +5,41 @@
 <!-- ═══ PAGE HEADER ═══ -->
 <section class="ph">
     <div class="wrap">
-        <h1 class="ph-t">Apply for Your <span class="hi">Digital Signature Certificate</span></h1>
-        <p class="ph-d">Complete the form below to start your DSC application. Our team will contact you within 30 minutes to process your request.</p>
+        <h1 class="ph-t">Get Your DSC in 30 Minutes<br><span class="hi">Fast & Hassle-Free</span></h1>
+        <p class="ph-d">Fill the form below. Our expert will call you within 30 minutes to complete your DSC application.</p>
         <!-- Trust badges in header -->
         <div class="ph-badges">
             <span class="ph-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                IT Act 2000 Compliant
+                50,000+ DSC Issued
             </span>
             <span class="ph-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                50,000+ Certificates Issued
+                Trusted by CA Firms
             </span>
             <span class="ph-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Fast Approval Process
+                Fast Approval
             </span>
         </div>
     </div>
 </section>
 
-<!-- ═══ PROCESS STEPS INDICATOR ═══ -->
-<section class="apply-steps">
-    <div class="wrap">
-        <div class="steps-track">
-            {% set steps = [
-                {"n":"1","t":"Fill Application","ico":'<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>'},
-                {"n":"2","t":"Upload Documents","ico":'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'},
-                {"n":"3","t":"Video Verification","ico":'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>'},
-                {"n":"4","t":"Receive DSC","ico":'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'}
-            ] %}
-            <div class="steps-line"></div>
-            {% for s in steps %}
-            <div class="step-item {{ 'step-item--active' if loop.first }}">
-                <div class="step-circle">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ s.ico|safe }}</svg>
-                </div>
-                <div class="step-text">
-                    <span class="step-num">Step {{ s.n }}</span>
-                    <span class="step-title">{{ s.t }}</span>
-                </div>
+<!-- ═══ SIMPLE PROCESS ═══ -->
+<section class="apply-steps" style="padding: 2.5rem 0;">
+    <div class="wrap" style="text-align: center;">
+        <h2 style="margin-bottom: 2rem; font-size: 1.8rem; font-weight: 700;">Simple 2-Step Process</h2>
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+            <div style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex: 1; min-width: 250px; max-width: 320px; border: 1px solid rgba(0,0,0,0.05); text-align: center;">
+                <div style="background: var(--c-mint, #e0f2fe); color: var(--c-brand, #0369a1); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">1</div>
+                <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Fill Form</h3>
+                <p style="color: var(--text-muted, #666); font-size: 0.95rem; margin: 0;">Takes less than 1 minute</p>
             </div>
-            {% endfor %}
+            <div style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex: 1; min-width: 250px; max-width: 320px; border: 1px solid rgba(0,0,0,0.05); text-align: center;">
+                <div style="background: var(--c-mint, #e0f2fe); color: var(--c-brand, #0369a1); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">2</div>
+                <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;">We Call You</h3>
+                <p style="color: var(--text-muted, #666); font-size: 0.95rem; margin: 0;">Within 30 minutes</p>
+            </div>
         </div>
     </div>
 </section>
@@ -57,6 +50,22 @@
         <div class="f-lay">
 
             <!-- Main form card -->
+            {% if request.args.get('success') == '1' %}
+            <div class="f-card success-card" style="text-align: center; padding: 4rem 2rem; border-top: 4px solid #10b981; animation: slideUp 0.5s ease-out; background: var(--bg-card, #fff); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div style="font-size: 4.5rem; margin-bottom: 1.5rem; animation: scaleIn 0.5s ease-out 0.2s both;">✅</div>
+                <h2 style="color: #10b981; margin-bottom: 1rem; font-size: 2rem; font-weight: 700;">Application Submitted!</h2>
+                <p style="font-size: 1.15rem; color: var(--text-muted, #4b5563); margin-bottom: 0.5rem;">Thank you for your interest in Get Digital Sign.</p>
+                <p style="font-size: 1.15rem; color: var(--text-muted, #4b5563); margin-bottom: 1.5rem;">Our expert will call you within 30 minutes.</p>
+                <div style="display: inline-block; background: #f3f4f6; color: #374151; padding: 1rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 1.1rem; border-left: 4px solid var(--c-brand, #0369a1);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px; margin-top: -2px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                    {{ CONTACT.phoneDisplay }} &bull; Available 9 AM - 7 PM
+                </div>
+                <style>
+                    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                    @keyframes scaleIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+                </style>
+            </div>
+            {% else %}
             <div class="f-card">
                 <form method="POST" action="{{ url_for('apply') }}">
 
@@ -80,7 +89,7 @@
                         <div class="f-row">
                             <div class="f-fld">
                                 <label for="phone">Phone Number <span class="req">*</span></label>
-                                <input type="tel" id="phone" name="phone" value="{{ form_data.get('phone','') }}" required placeholder="+91 98690 84845">
+                                <input type="tel" id="phone" name="phone" value="{{ form_data.get('phone','') }}" required placeholder="{{ CONTACT.phoneDisplay }}">
                                 <span class="f-hint">For OTP verification and updates</span>
                             </div>
                             <div class="f-fld">
@@ -137,9 +146,14 @@
                     <div class="f-act">
                         <button type="submit" class="btn btn--pri btn--lg btn--blk f-submit-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-                            Start DSC Application
+                            Submit & Get Call Within 30 Min
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </button>
+                        <!-- Trust line below button -->
+                        <p style="text-align: center; color: var(--c-mint-d, #059669); font-size: 0.95rem; margin-top: 0.75rem; font-weight: 500;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Our expert will call you within 30 minutes
+                        </p>
                         <!-- Security note -->
                         <div class="f-security">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
@@ -149,6 +163,7 @@
                     </div>
                 </form>
             </div>
+            {% endif %}
 
             <!-- Sidebar -->
             <aside class="f-sidebar">
@@ -158,23 +173,8 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-brand)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                         <h4>Documents Required</h4>
                     </div>
-                    <ul class="chk chk--numbered">
-                        {% set docs = [
-                            {"t":"PAN Card","d":"Mandatory for identity verification"},
-                            {"t":"Aadhaar Card","d":"Required for video KYC process"},
-                            {"t":"Passport-size Photo","d":"Recent, clear photograph"},
-                            {"t":"Active Email & Phone","d":"For OTP and communications"},
-                            {"t":"Device with Camera","d":"For video verification call"}
-                        ] %}
-                        {% for doc in docs %}
-                        <li>
-                            <span class="chk-num">{{ loop.index }}</span>
-                            <div>
-                                <span class="chk-title">{{ doc.t }}</span>
-                                <span class="chk-desc">{{ doc.d }}</span>
-                            </div>
-                        </li>
-                        {% endfor %}
+                    <ul class="chk chk--numbered" id="dynamic-docs-list" style="transition: opacity 0.3s ease;">
+                        <!-- Documents will be rendered dynamically based on selected certificate -->
                     </ul>
                 </div>
 
@@ -183,11 +183,11 @@
                     <h4>Need Help Filling the Form?</h4>
                     <p>Our support team is available Monday–Saturday, 9 AM to 7 PM IST to walk you through the application.</p>
                     <div class="sb-contacts">
-                        <a href="tel:+919869084845" class="sb-contact-row">
+                        <a href="{{ CONTACT.callLink }}" class="sb-contact-row">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-                            <span>+91 98690 84845</span>
+                            <span>{{ CONTACT.phoneDisplay }}</span>
                         </a>
-                        <a href="https://wa.me/919869084845?text=Hello%2C%20I%20want%20to%20apply%20for%20a%20Digital%20Signature%20Certificate." target="_blank" rel="noopener" class="sb-contact-row sb-wa">
+                        <a href="{{ CONTACT.whatsapp }}?text=Hello%2C%20I%20want%20to%20apply%20for%20a%20Digital%20Signature%20Certificate." target="_blank" rel="noopener" class="sb-contact-row sb-wa">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             <span>Chat on WhatsApp</span>
                         </a>
@@ -231,14 +231,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateValidityOptions() {
         const selectedCert = certTypeSelect.value;
         const selectedOption = certTypeSelect.options[certTypeSelect.selectedIndex];
-        
+
         if (!selectedOption || !selectedOption.dataset.validity) {
             validitySelect.innerHTML = '<option value="" disabled selected>Select validity</option>';
             return;
         }
 
         const validityYears = selectedOption.dataset.validity.split(',');
-        
+
         validitySelect.innerHTML = '';
         validityYears.forEach(year => {
             const option = document.createElement('option');
@@ -248,10 +248,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    certTypeSelect.addEventListener('change', updateValidityOptions);
-    
-    // Initial call to populate validity based on pre-selected cert type
+    // Dynamic Documents mapping
+    const documentMap = {
+        "Class 3 Signing": [
+            "PAN Card",
+            "Aadhaar Card",
+            "Passport Size Photo",
+            "Mobile & Email"
+        ],
+        "Class 3 Only Org Signing": [
+            "PAN Card",
+            "Aadhaar Card",
+            "Organization PAN",
+            "Authorization Letter",
+            "Passport Size Photo"
+        ],
+        "Class 3 Combo": [
+            "PAN Card",
+            "Aadhaar Card",
+            "Passport Size Photo",
+            "Mobile & Email"
+        ],
+        "DGFT": [
+            "PAN Card",
+            "Aadhaar Card",
+            "IEC Code",
+            "Passport Size Photo"
+        ],
+        "Class 3 Foreign Only Signing": [
+            "Passport",
+            "Visa",
+            "Address Proof",
+            "Photo"
+        ]
+    };
+
+    function updateDocuments() {
+        const selectedCert = certTypeSelect.value;
+        const docsList = document.getElementById('dynamic-docs-list');
+        if (!docsList) return;
+
+        // Default to Class 3 Signing if nothing selected or unknown
+        const docs = documentMap[selectedCert] || documentMap["Class 3 Signing"];
+
+        docsList.style.opacity = '0'; // start fade out
+
+        setTimeout(() => {
+            docsList.innerHTML = '';
+            docs.forEach((doc, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="chk-num">${index + 1}</span>
+                    <div>
+                        <span class="chk-title">${doc}</span>
+                    </div>
+                `;
+                docsList.appendChild(li);
+            });
+            docsList.style.opacity = '1'; // fade in
+        }, 150);
+    }
+
+    certTypeSelect.addEventListener('change', () => {
+        updateValidityOptions();
+        updateDocuments();
+    });
+
+    // Initial calls
     updateValidityOptions();
-});
-</script>
-{% endblock %}
+    updateDocuments();
+    });
+    </script>{% endblock %}

@@ -98,6 +98,8 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .btn--out{border:1.5px solid var(--c-border);color:var(--c-ink);background:var(--c-bg-alt)}
 .btn--out:hover{border-color:var(--c-brand);color:var(--c-brand);background:var(--c-b50);transform:translateY(-2px);box-shadow:var(--s-sm)}
 .btn--wht{background:#fff;color:var(--c-brand);font-weight:700;box-shadow:var(--s-md)}
+.btn--wa{background:#25D366;color:#fff;box-shadow:0 4px 15px rgba(37,211,102,.3);border:1px solid #25D366}
+.btn--wa:hover{background:#20BD5A;box-shadow:0 6px 20px rgba(37,211,102,.4)}
 .btn--wht:hover{transform:translateY(-2px);box-shadow:var(--s-lg)}
 .btn--ghost{border:1.5px solid rgba(255,255,255,.2);color:#fff;background:rgba(255,255,255,.06);backdrop-filter:blur(8px)}
 .btn--ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.12);transform:translateY(-2px)}

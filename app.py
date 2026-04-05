@@ -14,6 +14,17 @@ import csv
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "get-digital-sign-secret-key-change-in-production")
 
+CONTACT = {
+    'phoneDisplay': '+91 97681 46715',
+    'phoneLink': 'tel:+919768146715',
+    'callLink': 'tel:+919768146715',
+    'whatsapp': 'https://wa.me/919768146715'
+}
+
+@app.context_processor
+def inject_globals():
+    return dict(CONTACT=CONTACT)
+
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 DSC_PRICING_CATEGORIES = {
@@ -136,7 +147,7 @@ def apply():
             "Our team will contact you shortly.",
             "success",
         )
-        return redirect(url_for("apply"))
+        return redirect(url_for("apply", success="1"))
 
     return render_template("apply.html", prices=DSC_PRICES, form_data={})
 
