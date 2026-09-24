@@ -70,7 +70,7 @@
                     <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c-mint)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Quick Response</span>
                 </div>
 
-                <form method="POST" action="{{ url_for('contact') }}">
+                <form method="POST" action="{{ url_for('contact') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="f-row">
                         <div class="f-fld">
                             <label for="name">Full Name <span class="req">*</span></label>

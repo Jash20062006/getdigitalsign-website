@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<div class="adm-login-wrap">
+    <div class="adm-card adm-login-card">
+        <h1 class="adm-login-title">Admin Login</h1>
+        <p class="adm-login-sub">Sign in to manage the DSC blog.</p>
+        <form method="POST" action="{{ url_for('admin.login') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="adm-fld">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autofocus autocomplete="username">
+            </div>
+            <div class="adm-fld">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="adm-btn adm-btn--pri" style="width:100%;margin-top:.5rem">Log In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

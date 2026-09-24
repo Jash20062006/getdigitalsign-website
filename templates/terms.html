@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Terms & Conditions{% endblock %}
+{% block content %}
+
+<!-- ═══ PAGE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <h1 class="ph-t">Terms &amp; <span class="hi">Conditions</span></h1>
+        <p class="ph-d">The terms that govern your use of this website and our Digital Signature Certificate facilitation services.</p>
+    </div>
+</section>
+
+<!-- ═══ POLICY CONTENT ═══ -->
+<section class="sec bp-sec">
+    <div class="wrap wrap--sm">
+        <article class="bp-content legal-content reveal">
+            <p class="legal-updated">Last updated: {{ updated_date }}</p>
+
+            <h2>Acceptance of Terms</h2>
+            <p>By accessing or using this website, or by submitting an application through our <a href="{{ url_for('apply') }}">Apply</a> or <a href="{{ url_for('contact') }}">Contact</a> forms, you agree to be bound by these Terms &amp; Conditions. If you do not agree with any part of these terms, please do not use this website or our services.</p>
+
+            <h2>About Our Service</h2>
+            <p>Get Digital Sign facilitates the application process for Digital Signature Certificates (DSCs). DSCs are issued by CCA-licensed Certifying Authorities under the Information Technology Act, 2000. We assist you with selecting the correct certificate type, collecting the required information, coordinating identity verification, and arranging delivery of the USB token containing your certificate.</p>
+
+            <h2>Eligibility &amp; Accurate Information</h2>
+            <p>You must provide accurate, current, and complete information when applying for a Digital Signature Certificate. You are responsible for ensuring that the name, PAN, organization details, and any other information you submit match your official identity documents. Incorrect or mismatched information may delay or prevent issuance of your certificate.</p>
+
+            <h2>Certificate Issuance Process</h2>
+            <p>Certificates are issued only after successful identity verification, which may include video-based KYC as required by applicable Controller of Certifying Authorities (CCA) guidelines. Processing times mentioned on this website (for example, "30 minutes to 2 hours") are estimates and may vary depending on document verification, certificate type, and circumstances beyond our control.</p>
+
+            <h2>Pricing &amp; Payment</h2>
+            <p>Prices for each certificate type and validity period are displayed on our <a href="{{ url_for('services') }}">Services page</a>. Prices are subject to change without prior notice; the price applicable to your order is the price confirmed to you at the time of application. This website does not process online card or payment gateway transactions; payment is collected as communicated to you directly by our team during the application process.</p>
+
+            <h2>User Responsibilities</h2>
+            <ul>
+                <li>Keep your USB token and its password/PIN secure at all times.</li>
+                <li>Do not share your Digital Signature Certificate credentials with anyone.</li>
+                <li>Report a lost, stolen, or compromised USB token to us immediately so the certificate can be revoked.</li>
+                <li>Use your Digital Signature Certificate only for lawful purposes, in line with the Information Technology Act, 2000.</li>
+            </ul>
+
+            <h2>Intellectual Property</h2>
+            <p>All content on this website — including text, graphics, logos, and design — is the property of Get Digital Sign unless otherwise stated, and may not be reproduced without permission.</p>
+
+            <h2>Limitation of Liability</h2>
+            <p>We facilitate DSC applications in good faith but do not guarantee issuance within any specific timeframe, as issuance is subject to verification by the Certifying Authority and the accuracy of the information and documents provided. To the extent permitted by law, Get Digital Sign shall not be liable for indirect, incidental, or consequential loss arising from delays, errors in submitted information, or the actions of third parties, including the Certifying Authority or delivery partners.</p>
+
+            <h2>Termination / Refusal of Service</h2>
+            <p>We reserve the right to refuse or discontinue processing an application where the information provided is inaccurate, incomplete, or fraudulent, or where required identity verification cannot be completed.</p>
+
+            <h2>Governing Law</h2>
+            <p>These Terms &amp; Conditions are governed by the laws of India.</p>
+
+            <h2>Changes to These Terms</h2>
+            <p>We may update these Terms &amp; Conditions from time to time. Any changes will be posted on this page along with a revised "Last updated" date.</p>
+
+            <h2>Contact Us</h2>
+            <p>Questions about these Terms &amp; Conditions can be directed to:</p>
+            <ul>
+                <li>Email: <a href="mailto:dsc@getdigitalsign.com">dsc@getdigitalsign.com</a></li>
+                <li>Phone: <a href="{{ CONTACT.callLink }}">{{ CONTACT.phoneDisplay }}</a></li>
+                <li>Address: 6, Ground Floor, Naresh Smruti, Vithal Nagar, S.L. Road, Near Shreyas Shubham Building, Mulund West, Mumbai – 400080, India</li>
+            </ul>
+        </article>
+
+        <!-- Back link -->
+        <div class="bp-back reveal">
+            <a href="{{ url_for('home') }}" class="bp-back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

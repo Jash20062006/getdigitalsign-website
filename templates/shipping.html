@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Shipping & Delivery Policy{% endblock %}
+{% block content %}
+
+<!-- ═══ PAGE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <h1 class="ph-t">Shipping &amp; <span class="hi">Delivery Policy</span></h1>
+        <p class="ph-d">How your Digital Signature Certificate USB token is dispatched and delivered.</p>
+    </div>
+</section>
+
+<!-- ═══ POLICY CONTENT ═══ -->
+<section class="sec bp-sec">
+    <div class="wrap wrap--sm">
+        <article class="bp-content legal-content reveal">
+            <p class="legal-updated">Last updated: {{ updated_date }}</p>
+
+            <h2>Overview</h2>
+            <p>This policy describes how the USB token containing your Digital Signature Certificate is delivered once your application has been successfully processed and your certificate has been issued.</p>
+
+            <h2>Delivery Method</h2>
+            <p>Once your Digital Signature Certificate is issued and loaded onto a secure USB token, we arrange delivery through a third-party courier service.</p>
+
+            <h2>Delivery Area</h2>
+            <p>We currently offer delivery within India. If you require delivery outside India — for example, in connection with the "Class 3 Foreign Only Signing" certificate — please contact us before applying to confirm whether we can deliver to your location.</p>
+
+            <h2>Delivery Timeline</h2>
+            <p>Certificate issuance typically takes 30 minutes to 2 hours for individuals and 2–4 hours for organizations after successful verification, as described on our <a href="{{ url_for('services') }}">Services page</a>. Once issued, the USB token is dispatched promptly and delivered within a reasonable timeframe depending on your location.</p>
+
+            <h2>Delivery Charges</h2>
+            <p>Delivery of the USB token within our serviceable locations is included in the certificate price shown on our Services page, at no additional cost.</p>
+
+            <h2>Tracking</h2>
+            <p>Where shipment tracking information is available for your delivery, we will share it with you on request.</p>
+
+            <h2>Failed or Delayed Delivery</h2>
+            <p>If you do not receive your USB token within the expected timeframe, or if delivery fails due to an incorrect or incomplete address, please contact us so we can assist you, which may include arranging redelivery.</p>
+
+            <h2>Contact Us</h2>
+            <p>For any delivery-related questions, please reach out to us:</p>
+            <ul>
+                <li>Email: <a href="mailto:dsc@getdigitalsign.com">dsc@getdigitalsign.com</a></li>
+                <li>Phone: <a href="{{ CONTACT.callLink }}">{{ CONTACT.phoneDisplay }}</a></li>
+                <li>WhatsApp: <a href="{{ CONTACT.whatsapp }}" target="_blank" rel="noopener">Chat with us</a></li>
+            </ul>
+        </article>
+
+        <!-- Back link -->
+        <div class="bp-back reveal">
+            <a href="{{ url_for('home') }}" class="bp-back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

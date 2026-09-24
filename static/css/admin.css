@@ -1,0 +1,69 @@
+/* Admin CMS — reuses design tokens from style.css */
+
+.adm-body{background:var(--c-bg);min-height:100vh}
+.adm-wrap{max-width:1100px;margin:0 auto;padding:0 2rem}
+.adm-main{padding:2.5rem 0 4rem}
+
+.adm-bar{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 2rem;background:var(--c-navy-9);color:#fff;margin-bottom:2rem}
+.adm-brand{font-weight:800;font-size:1rem;color:#fff}
+.adm-brand span{opacity:.5;font-weight:500;margin-left:.3rem}
+.adm-bar-nav{display:flex;gap:1.5rem}
+.adm-bar-nav a{font-size:.86rem;font-weight:500;color:rgba(255,255,255,.65);transition:color var(--dur)}
+.adm-bar-nav a:hover{color:#fff}
+
+.adm-flash{padding:.8rem 1.1rem;border-radius:var(--r);margin-bottom:1rem;font-size:.88rem;font-weight:500}
+.adm-flash--success{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
+.adm-flash--error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+
+.adm-h1{font-family:var(--ff-d);font-size:1.7rem;font-weight:400}
+.adm-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+
+.adm-card{background:var(--c-bg-alt);border:1px solid var(--c-border-l);border-radius:var(--r-lg);padding:1.7rem;margin-bottom:1.5rem;box-shadow:var(--s-xs)}
+.adm-notice p{color:var(--c-ink-3);font-size:.9rem;line-height:1.7;margin-top:.5rem}
+.adm-notice code{background:var(--c-bg);padding:.1rem .4rem;border-radius:var(--r-xs);font-family:var(--ff-m);font-size:.82em}
+
+.adm-fld{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.1rem}
+.adm-fld label{font-size:.82rem;font-weight:600;color:var(--c-ink)}
+.adm-fld .hint{font-weight:400;color:var(--c-ink-4);font-size:.76rem}
+.adm-fld .req{color:var(--c-danger)}
+.adm-featured-preview{max-width:100%;border-radius:var(--r);margin-bottom:.6rem;border:1px solid var(--c-border-l)}
+
+.adm-btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;font-weight:600;font-size:.86rem;border-radius:var(--r);padding:.6rem 1.1rem;background:var(--c-bg-alt);border:1.5px solid var(--c-border);color:var(--c-ink);cursor:pointer;transition:background var(--dur),border-color var(--dur)}
+.adm-btn:hover{border-color:var(--c-brand);color:var(--c-brand)}
+.adm-btn--pri{background:linear-gradient(135deg,var(--c-brand),var(--c-brand-l));color:#fff;border-color:transparent}
+.adm-btn--pri:hover{color:#fff;opacity:.92}
+.adm-btn--danger{color:var(--c-danger);border-color:var(--c-danger)}
+.adm-btn--danger:hover{background:var(--c-danger);color:#fff}
+.adm-btn--sm{padding:.4rem .75rem;font-size:.78rem}
+.adm-btn-row{display:flex;gap:.7rem}
+
+.adm-login-wrap{display:flex;justify-content:center;padding-top:3rem}
+.adm-login-card{width:100%;max-width:360px}
+.adm-login-title{font-family:var(--ff-d);font-size:1.5rem;margin-bottom:.3rem}
+.adm-login-sub{color:var(--c-ink-3);font-size:.88rem;margin-bottom:1.5rem}
+
+.adm-table{width:100%;border-collapse:collapse;font-size:.86rem}
+.adm-table th{text-align:left;padding:.9rem 1.2rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--c-ink-4);border-bottom:1px solid var(--c-border-l)}
+.adm-table td{padding:.9rem 1.2rem;border-bottom:1px solid var(--c-border-l);vertical-align:middle}
+.adm-table tr:last-child td{border-bottom:none}
+.adm-post-title{display:block;font-weight:600;color:var(--c-ink)}
+.adm-post-slug{display:block;font-size:.76rem;color:var(--c-ink-4);font-family:var(--ff-m)}
+.adm-row-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.adm-row-actions form{display:inline}
+
+.adm-status{display:inline-block;padding:.2rem .6rem;border-radius:var(--r-pill);font-size:.72rem;font-weight:600;text-transform:capitalize}
+.adm-status--published{background:var(--c-mint-10);color:var(--c-mint-d)}
+.adm-status--draft{background:var(--c-bg);color:var(--c-ink-3);border:1px solid var(--c-border-l)}
+
+.adm-editor-lay{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start}
+.adm-sidebar h4{font-family:var(--ff-d);font-size:.95rem;margin-bottom:1rem}
+
+#editor{background:var(--c-bg-alt);min-height:340px;border-radius:0 0 var(--r) var(--r)}
+.ql-toolbar.ql-snow{border-radius:var(--r) var(--r) 0 0;border-color:var(--c-border)!important}
+.ql-container.ql-snow{border-color:var(--c-border)!important;font-family:var(--ff-b);font-size:.95rem}
+
+@media(max-width:900px){
+  .adm-editor-lay{grid-template-columns:1fr}
+  .adm-bar-nav{gap:.9rem}
+  .adm-wrap{padding:0 1.2rem}
+}

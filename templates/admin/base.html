@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block title %}Admin{% endblock %} — Get Digital Sign</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="adm-body">
+
+<header class="adm-bar">
+    <a href="{{ url_for('admin.blogs_list') }}" class="adm-brand">Get Digital Sign <span>Admin</span></a>
+    {% if session.get('is_admin') %}
+    <nav class="adm-bar-nav">
+        <a href="{{ url_for('admin.blogs_list') }}">Blog Posts</a>
+        <a href="{{ url_for('blog') }}" target="_blank" rel="noopener">View Public Blog &#8599;</a>
+        <a href="{{ url_for('admin.logout') }}">Log Out</a>
+    </nav>
+    {% endif %}
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="adm-wrap">
+    {% for category, message in messages %}
+    <div class="adm-flash adm-flash--{{ category }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<main class="adm-wrap adm-main">
+    {% block content %}{% endblock %}
+</main>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

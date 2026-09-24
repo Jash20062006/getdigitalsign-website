@@ -7,6 +7,9 @@
 <meta property="og:title" content="{{ post.seo_title if post.seo_title else post.title }}">
 <meta property="og:description" content="{{ post.meta_description if post.meta_description else post.excerpt }}">
 <meta property="og:type" content="article">
+{% if post.featured_image %}
+<meta property="og:image" content="{{ post.featured_image }}">
+{% endif %}
 <link rel="canonical" href="{{ url_for('blog_post', slug=post.slug, _external=True) }}">
 {% endblock %}
 
@@ -46,6 +49,9 @@
 <!-- ═══ ARTICLE CONTENT ═══ -->
 <section class="sec bp-sec">
     <div class="wrap wrap--sm">
+        {% if post.featured_image %}
+        <img src="{{ post.featured_image }}" alt="{{ post.title }}" class="bp-featured-img">
+        {% endif %}
         <article class="bp-content reveal">
             {{ post.content | safe }}
         </article>

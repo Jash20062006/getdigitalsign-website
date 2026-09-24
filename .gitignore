@@ -208,3 +208,6 @@ __marimo__/
 
 google_credentials.json
 .env.local
+
+# Customer lead data (PII) - never commit
+leads_*.csv

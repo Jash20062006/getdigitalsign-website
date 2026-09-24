@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy{% endblock %}
+{% block content %}
+
+<!-- ═══ PAGE HEADER ═══ -->
+<section class="ph">
+    <div class="wrap">
+        <h1 class="ph-t">Privacy <span class="hi">Policy</span></h1>
+        <p class="ph-d">How Get Digital Sign collects, uses, and protects the information you share with us.</p>
+    </div>
+</section>
+
+<!-- ═══ POLICY CONTENT ═══ -->
+<section class="sec bp-sec">
+    <div class="wrap wrap--sm">
+        <article class="bp-content legal-content reveal">
+            <p class="legal-updated">Last updated: {{ updated_date }}</p>
+
+            <h2>Introduction</h2>
+            <p>Get Digital Sign ("we", "us", "our") facilitates the application process for Digital Signature Certificates (DSCs) in India. This Privacy Policy explains what personal information we collect through this website, how we use it, who we share it with, and the choices available to you.</p>
+
+            <h2>Information We Collect</h2>
+            <p>When you use the <a href="{{ url_for('apply') }}">Apply</a> or <a href="{{ url_for('contact') }}">Contact</a> forms on this website, we may collect the information you choose to submit, which can include:</p>
+            <ul>
+                <li>Full name</li>
+                <li>Email address</li>
+                <li>Phone number</li>
+                <li>PAN (if provided)</li>
+                <li>Organization name (if applicable)</li>
+                <li>The certificate type/validity you are enquiring about</li>
+                <li>Any purpose, remarks, or message you enter</li>
+            </ul>
+            <p>This website's forms do not collect Aadhaar numbers, identity document uploads, or payment card details. Any such documents are collected separately as part of the identity verification process required to issue a Digital Signature Certificate, not through this website.</p>
+
+            <h2>How We Use Your Information</h2>
+            <p>We use the information you submit to:</p>
+            <ul>
+                <li>Contact you regarding your DSC application or enquiry</li>
+                <li>Facilitate and follow up on your Digital Signature Certificate application</li>
+                <li>Identify the correct certificate type, validity, and pricing relevant to your enquiry</li>
+                <li>Respond to support requests submitted through the Contact form</li>
+                <li>Share updates about the status of your application</li>
+            </ul>
+
+            <h2>How We Store &amp; Share Your Information</h2>
+            <p>Information submitted through our forms is stored in our internal records so we can follow up on your enquiry or application. As part of issuing a Digital Signature Certificate, your details — and the identity documents you provide during verification — are necessarily shared with the CCA-licensed Certifying Authority responsible for issuing the certificate, and, where applicable, with our delivery partner for dispatching your USB token. We do not sell your personal information to third parties, and we only share it with the parties described above to the extent needed to fulfil your application.</p>
+
+            <h2>Cookies</h2>
+            <p>This website uses a single functional session cookie, set by our web server, to display confirmation and error messages after you submit a form. This cookie does not track you across other websites and is not used for advertising or analytics. We do not currently use analytics or third-party tracking scripts on this website.</p>
+
+            <h2>Data Security</h2>
+            <p>We take reasonable technical and organisational measures designed to protect the information you submit to us, and we restrict access to stored enquiry and application data to authorised personnel only. However, no method of transmission or storage over the internet is completely secure, and we cannot guarantee absolute security.</p>
+
+            <h2>Your Rights</h2>
+            <p>You may contact us to request access to, correction of, or deletion of the personal information you have submitted to us, subject to any records we are required to retain — for example, records related to a Digital Signature Certificate that has already been issued.</p>
+
+            <h2>Data Retention</h2>
+            <p>We retain the personal information you submit for as long as necessary to fulfil the purposes described in this policy, including any period required to comply with our legal, accounting, or regulatory obligations, after which it is deleted or anonymised.</p>
+
+            <h2>Third-Party Links</h2>
+            <p>Our website may contain links to third-party services such as WhatsApp or government portals. We are not responsible for the privacy practices or content of those third-party sites.</p>
+
+            <h2>Children's Privacy</h2>
+            <p>Our services are intended for individuals who are legally competent to enter into a contract under Indian law and are not directed at children.</p>
+
+            <h2>Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page along with a revised "Last updated" date.</p>
+
+            <h2>Contact Us</h2>
+            <p>If you have questions about this Privacy Policy or how your information is handled, please contact us:</p>
+            <ul>
+                <li>Email: <a href="mailto:dsc@getdigitalsign.com">dsc@getdigitalsign.com</a></li>
+                <li>Phone: <a href="{{ CONTACT.callLink }}">{{ CONTACT.phoneDisplay }}</a></li>
+                <li>Address: 6, Ground Floor, Naresh Smruti, Vithal Nagar, S.L. Road, Near Shreyas Shubham Building, Mulund West, Mumbai – 400080, India</li>
+            </ul>
+        </article>
+
+        <!-- Back link -->
+        <div class="bp-back reveal">
+            <a href="{{ url_for('home') }}" class="bp-back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
