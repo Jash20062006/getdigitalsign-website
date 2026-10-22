@@ -109,12 +109,40 @@ def blogs_list():
     return render_template("admin/dashboard.html", posts=posts, supabase_ready=supabase_ready)
 
 
+DEFAULT_READ_TIME = 5
+MAX_READ_TIME = 600
+
+
+def parse_read_time(raw):
+    """Validate the Read Time form value (minutes, whole number).
+    Returns (value, error): blank -> (DEFAULT_READ_TIME, None); a valid whole
+    number from 1..MAX_READ_TIME -> (int, None); anything else -> (None, message)."""
+    raw = (raw or "").strip()
+    if not raw:
+        return DEFAULT_READ_TIME, None
+    if not re.fullmatch(r"[0-9]{1,6}", raw):
+        return None, "Read Time must be a whole number of minutes, e.g. 5 (no decimals or text)."
+    value = int(raw)
+    if value < 1 or value > MAX_READ_TIME:
+        return None, f"Read Time must be between 1 and {MAX_READ_TIME} minutes."
+    return value, None
+
+
 def _collect_form_data(existing=None):
+    """Returns (data, errors). `errors` maps field name -> message. When Read
+    Time is invalid, data['read_time'] holds the raw text so the form can
+    redisplay it; callers must not save in that case."""
+    errors = {}
     title = request.form.get("title", "").strip()
     slug_input = request.form.get("slug", "").strip()
     base_slug = db.slugify(slug_input or title)
     exclude_id = existing["id"] if existing else None
     slug = db.unique_slug(base_slug, exclude_id=exclude_id)
+
+    read_time, rt_error = parse_read_time(request.form.get("read_time", ""))
+    if rt_error:
+        errors["read_time"] = rt_error
+        read_time = request.form.get("read_time", "").strip()
 
     data = {
         "title": title,
@@ -126,10 +154,14 @@ def _collect_form_data(existing=None):
         "meta_title": request.form.get("meta_title", "").strip(),
         "meta_description": request.form.get("meta_description", "").strip(),
         "keywords": request.form.get("keywords", "").strip(),
-        "read_time": request.form.get("read_time", "").strip(),
+        "read_time": read_time,
         "status": "published" if request.form.get("action") == "publish" else "draft",
     }
-    return data
+    if not title:
+        errors["title"] = "Title is required."
+    if not data["content"].strip():
+        errors["content"] = "Content is required."
+    return data, errors
 
 
 def _handle_image_upload(existing_url=None):
@@ -164,10 +196,10 @@ def blog_new():
         return redirect(url_for("admin.blogs_list"))
 
     if request.method == "POST":
-        data = _collect_form_data()
-        if not data["title"] or not data["content"]:
-            flash("Title and content are required.", "error")
-            return render_template("admin/editor.html", post=data, mode="new")
+        data, errors = _collect_form_data()
+        if errors:
+            flash("Please fix the highlighted fields and try again.", "error")
+            return render_template("admin/editor.html", post=data, mode="new", errors=errors)
         data["featured_image"] = _handle_image_upload()
         try:
             db.create_post(data)
@@ -194,11 +226,11 @@ def blog_edit(post_id):
         return redirect(url_for("admin.blogs_list"))
 
     if request.method == "POST":
-        data = _collect_form_data(existing=existing)
-        if not data["title"] or not data["content"]:
-            flash("Title and content are required.", "error")
+        data, errors = _collect_form_data(existing=existing)
+        if errors:
+            flash("Please fix the highlighted fields and try again.", "error")
             merged = {**existing, **data}
-            return render_template("admin/editor.html", post=merged, mode="edit")
+            return render_template("admin/editor.html", post=merged, mode="edit", errors=errors)
         data["featured_image"] = _handle_image_upload(existing_url=existing.get("featured_image"))
         try:
             db.update_post(post_id, data)

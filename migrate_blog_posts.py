@@ -12,6 +12,7 @@ Safe to re-run: existing rows are matched by slug and left untouched by
 default. Pass --update-existing to overwrite rows that already exist.
 """
 import argparse
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -32,6 +33,11 @@ def main():
     client = db.get_client()
     created, updated, skipped = 0, 0, 0
 
+    def _read_time_minutes(value):
+        """Legacy values look like '6 min read'; the column is an integer of minutes."""
+        m = re.search(r"\d+", str(value or ""))
+        return max(1, int(m.group())) if m else 5
+
     for post in BLOG_POSTS:
         row = {
             "title": post["title"],
@@ -43,7 +49,7 @@ def main():
             "meta_title": post.get("seo_title", post["title"]),
             "meta_description": post.get("meta_description", post.get("excerpt", "")),
             "keywords": post.get("keywords", ""),
-            "read_time": post.get("read_time", ""),
+            "read_time": _read_time_minutes(post.get("read_time")),
             "status": "published",
         }
 

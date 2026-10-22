@@ -13,12 +13,16 @@ create table if not exists blogs (
   meta_title text,
   meta_description text,
   keywords text,
-  read_time text,
+  read_time integer default 5,  -- whole minutes; the app validates 1-600 and defaults blank to 5
   status text not null default 'draft' check (status in ('draft', 'published')),
   published_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- NOTE: `create table if not exists` does nothing on a database that already
+-- has the table. The live `blogs.read_time` was verified as integer, nullable,
+-- default 5, which matches the definition above; no ALTER is needed.
 
 create index if not exists blogs_slug_idx on blogs (slug);
 create index if not exists blogs_status_idx on blogs (status);

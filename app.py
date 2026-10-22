@@ -253,6 +253,17 @@ def _estimate_read_time(html_content):
     return f"{minutes} min read"
 
 
+def _display_read_time(row):
+    """read_time is stored as whole minutes (int); older rows may hold text
+    such as '6 min read'. Always return a display string."""
+    rt = row.get("read_time")
+    if isinstance(rt, int) and not isinstance(rt, bool) and rt > 0:
+        return f"{rt} min read"
+    if isinstance(rt, str) and rt.strip():
+        return f"{rt.strip()} min read" if rt.strip().isdigit() else rt.strip()
+    return _estimate_read_time(row.get("content", ""))
+
+
 def _format_db_post(row):
     """Adapts a Supabase `blogs` row into the field shape blog.html /
     blog_post.html expect (same shape as the legacy BLOG_POSTS dicts)."""
@@ -275,7 +286,7 @@ def _format_db_post(row):
         "date": date_str,
         "author": row.get("author") or "Get Digital Sign Team",
         "category": row.get("category") or "Guides",
-        "read_time": row.get("read_time") or _estimate_read_time(row.get("content", "")),
+        "read_time": _display_read_time(row),
         "content": row.get("content", ""),
         "featured_image": row.get("featured_image"),
     }

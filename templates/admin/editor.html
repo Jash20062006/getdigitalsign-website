@@ -53,31 +53,47 @@ document.getElementById('postForm').addEventListener('submit', function () {
 
 {% block content %}
 
+{% set errs = errors if errors is defined and errors else {} %}
+{# Read Time shown as a plain number: new post -> 5; legacy text like "6 min read" -> 6; invalid submission -> what was typed #}
+{% if errs.read_time %}
+  {% set rt_val = post.read_time | string %}
+{% else %}
+  {% set rt_raw = (post.read_time | string).split(' ')[0] if post and post.read_time is not none else '' %}
+  {% set rt_val = rt_raw if rt_raw.isdigit() else '5' %}
+{% endif %}
+
 <div class="adm-head-row">
     <h1 class="adm-h1">{{ 'Edit Post' if mode == 'edit' else 'New Post' }}</h1>
     <a href="{{ url_for('admin.blogs_list') }}" class="adm-btn">&larr; Back to Posts</a>
 </div>
 
 <form method="POST" enctype="multipart/form-data" id="postForm"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <p class="adm-legend"><span class="req">*</span> = required. Grey text inside a box is only an example &mdash; it is <strong>not</strong> saved unless you type it.</p>
     <div class="adm-editor-lay">
         <div class="adm-card">
-            <div class="adm-fld">
+            <div class="adm-fld{{ ' has-err' if errs.title }}">
                 <label for="title">Title <span class="req">*</span></label>
-                <input type="text" id="title" name="title" required value="{{ post.title if post else '' }}">
+                <p class="adm-help">The headline of the article. Text, required. Shown publicly as the page heading and on the blog listing.</p>
+                <input type="text" id="title" name="title" required value="{{ post.title if post else '' }}" placeholder="What Is a Digital Signature Certificate?">
+                {% if errs.title %}<p class="adm-err">{{ errs.title }}</p>{% endif %}
             </div>
             <div class="adm-fld">
-                <label for="slug">URL Slug <span class="hint">(leave blank to auto-generate from title)</span></label>
-                <input type="text" id="slug" name="slug" value="{{ post.slug if post else '' }}" placeholder="auto-generated-from-title">
+                <label for="slug">URL Slug <span class="hint">(optional)</span></label>
+                <p class="adm-help">The last part of the post's web address (<code>/blog/your-slug</code>). Text, optional &mdash; if blank it is generated from the title. Use lowercase letters, numbers and hyphens; anything else is converted automatically, and a number is appended if the slug is already taken. Public (part of the URL, also helps SEO).</p>
+                <input type="text" id="slug" name="slug" value="{{ post.slug if post else '' }}" placeholder="what-is-a-digital-signature-certificate">
             </div>
             <div class="adm-fld">
-                <label for="excerpt">Excerpt <span class="hint">(shown on the blog listing page)</span></label>
-                <textarea id="excerpt" name="excerpt" rows="2">{{ post.excerpt if post else '' }}</textarea>
+                <label for="excerpt">Excerpt <span class="hint">(optional)</span></label>
+                <p class="adm-help">A one- or two-sentence summary. Text, optional. Shown publicly on the blog listing page; also used as the search description when Meta Description is blank.</p>
+                <textarea id="excerpt" name="excerpt" rows="2" placeholder="Learn what a DSC is, how it works, and when you need one.">{{ post.excerpt if post else '' }}</textarea>
             </div>
 
-            <div class="adm-fld">
+            <div class="adm-fld{{ ' has-err' if errs.content }}">
                 <label for="editor">Content <span class="req">*</span></label>
+                <p class="adm-help">The main article body. Rich text (saved as HTML by the editor), required. Use the toolbar for headings, bold/italic, lists, links, quotes and inline images. Shown publicly. Unsupported tags and scripts are stripped on save.</p>
                 <div id="editor">{{ (post.content if post else '') | safe }}</div>
                 <textarea name="content" id="contentInput" style="display:none"></textarea>
+                {% if errs.content %}<p class="adm-err">{{ errs.content }}</p>{% endif %}
             </div>
         </div>
 
@@ -85,11 +101,16 @@ document.getElementById('postForm').addEventListener('submit', function () {
             <div class="adm-card">
                 <h4>Publish</h4>
                 <div class="adm-fld">
-                    <label for="featured_image">Featured Image</label>
+                    <label for="featured_image">Featured Image <span class="hint">(optional)</span></label>
+                    <p class="adm-help">The cover image. File upload, optional. Allowed: JPG, JPEG, PNG, GIF, WEBP, SVG; max 5 MB. Shown publicly. Leave empty to keep the current image.</p>
                     {% if post and post.featured_image %}
                     <img src="{{ post.featured_image }}" alt="" class="adm-featured-preview">
                     {% endif %}
-                    <input type="file" id="featured_image" name="featured_image" accept="image/*">
+                    <input type="file" id="featured_image" name="featured_image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/*">
+                </div>
+                <div class="adm-fld">
+                    <span class="adm-lbl">Status</span>
+                    <p class="adm-help">Set by the button you click, not typed. <strong>Save Draft</strong> stores <code>draft</code>: saved, visible only in admin. <strong>Publish</strong> stores <code>published</code>: live on the public blog.{% if post and post.status %} Current: <strong>{{ post.status }}</strong>.{% endif %}</p>
                 </div>
                 <div class="adm-btn-row">
                     <button type="submit" name="action" value="draft" class="adm-btn" style="flex:1">Save Draft</button>
@@ -100,32 +121,40 @@ document.getElementById('postForm').addEventListener('submit', function () {
             <div class="adm-card">
                 <h4>Organization</h4>
                 <div class="adm-fld">
-                    <label for="category">Category</label>
-                    <input type="text" id="category" name="category" value="{{ post.category if post else '' }}" placeholder="e.g. Guides, How-To">
+                    <label for="category">Category <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Topic label. Text, optional &mdash; defaults to &ldquo;Guides&rdquo; if blank. Shown publicly.</p>
+                    <input type="text" id="category" name="category" value="{{ post.category if post else '' }}" placeholder="Guides, Digital Signatures, Business">
                 </div>
                 <div class="adm-fld">
-                    <label for="author">Author</label>
-                    <input type="text" id="author" name="author" value="{{ post.author if post else 'Get Digital Sign Team' }}">
+                    <label for="author">Author <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Name shown as the writer. Text, optional &mdash; defaults to &ldquo;Get Digital Sign Team&rdquo; if blank. Shown publicly.</p>
+                    <input type="text" id="author" name="author" value="{{ post.author if post else 'Get Digital Sign Team' }}" placeholder="Get Digital Sign Team">
                 </div>
-                <div class="adm-fld">
-                    <label for="read_time">Read Time <span class="hint">(optional, auto-estimated if blank)</span></label>
-                    <input type="text" id="read_time" name="read_time" value="{{ post.read_time if post else '' }}" placeholder="6 min read">
+                <div class="adm-fld{{ ' has-err' if errs.read_time }}">
+                    <label for="read_time">Read Time (minutes) <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Estimated minutes to read. Whole number from 1 to 600, optional &mdash; blank saves as 5. No decimals or text. Shown publicly as &ldquo;5 min read&rdquo;.</p>
+                    <input type="number" id="read_time" name="read_time" min="1" max="600" step="1" inputmode="numeric" value="{{ rt_val }}" placeholder="5">
+                    {% if errs.read_time %}<p class="adm-err">{{ errs.read_time }}</p>{% endif %}
                 </div>
             </div>
 
             <div class="adm-card">
                 <h4>SEO</h4>
+                <p class="adm-help" style="margin-bottom:1rem">SEO fields are for search engines and are not shown as visible page content.</p>
                 <div class="adm-fld">
-                    <label for="meta_title">SEO Title</label>
-                    <input type="text" id="meta_title" name="meta_title" value="{{ post.meta_title if post else '' }}">
+                    <label for="meta_title">Meta Title <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Title shown in Google results and the browser tab. Text, optional &mdash; falls back to the article title. Guidance: about 50&ndash;60 characters (not enforced).</p>
+                    <input type="text" id="meta_title" name="meta_title" value="{{ post.meta_title if post else '' }}" placeholder="Digital Signature Certificate (DSC) Explained">
                 </div>
                 <div class="adm-fld">
-                    <label for="meta_description">Meta Description</label>
-                    <textarea id="meta_description" name="meta_description" rows="3">{{ post.meta_description if post else '' }}</textarea>
+                    <label for="meta_description">Meta Description <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Short summary shown under the title in search results. Text, optional &mdash; falls back to the Excerpt. Guidance: about 150&ndash;160 characters (not enforced).</p>
+                    <textarea id="meta_description" name="meta_description" rows="3" placeholder="Learn what a DSC is, how it works, who needs one and how to apply online.">{{ post.meta_description if post else '' }}</textarea>
                 </div>
                 <div class="adm-fld">
-                    <label for="keywords">Keywords</label>
-                    <input type="text" id="keywords" name="keywords" value="{{ post.keywords if post else '' }}" placeholder="comma, separated, keywords">
+                    <label for="keywords">Keywords <span class="hint">(optional)</span></label>
+                    <p class="adm-help">Search keywords as plain text, separated by commas. Optional. SEO use only.</p>
+                    <input type="text" id="keywords" name="keywords" value="{{ post.keywords if post else '' }}" placeholder="digital signature, DSC, eSign">
                 </div>
             </div>
         </div>
